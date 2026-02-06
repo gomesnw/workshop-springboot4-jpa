@@ -1,7 +1,10 @@
 package com.devgomes.project.config;
 
+import com.devgomes.project.entities.Category;
 import com.devgomes.project.entities.Order;
 import com.devgomes.project.entities.User;
+import com.devgomes.project.entities.enums.OrderStatus;
+import com.devgomes.project.repositories.CategoryRepository;
 import com.devgomes.project.repositories.OrderRepository;
 import com.devgomes.project.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +24,17 @@ public class TestConfig implements CommandLineRunner {
     private final UserRepository userRepository;
 
     private final OrderRepository orderRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public void run(String... args) throws Exception {
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+
         User u1 = User.builder()
                 .name("Isaque Gomes")
                 .email("isaqueg@gmail.com")
@@ -38,12 +49,12 @@ public class TestConfig implements CommandLineRunner {
                 .password("123456")
                 .build();
 
-        Order o1 = new Order(null, Instant.parse("2026-02-05T23:53:07Z"), u1);
-        Order o2 = new Order(null, Instant.parse("2026-02-06T12:42:10Z"), u2);
-        Order o3 = new Order(null, Instant.parse("2026-02-06T13:21:22Z"), u1);
-
+        Order o1 = new Order(null, Instant.parse("2026-02-05T23:53:07Z"), OrderStatus.PAID.getCode(), u1);
+        Order o2 = new Order(null, Instant.parse("2026-02-06T12:42:10Z"), OrderStatus.DELIVERED.getCode(), u2);
+        Order o3 = new Order(null, Instant.parse("2026-02-06T13:21:22Z"), OrderStatus.WAITING_PAYMENT.getCode(), u1);
 
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+
     }
 }

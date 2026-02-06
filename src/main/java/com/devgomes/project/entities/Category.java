@@ -1,13 +1,13 @@
 package com.devgomes.project.entities;
 
-import com.devgomes.project.entities.enums.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -16,35 +16,26 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "tb_order")
-public class Order implements Serializable {
+@Table(name = "tb_category")
+public class Category implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private Instant moment;
-
-    private Integer orderStatus;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private User client;
+    private String name;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id);
+        Category category = (Category) o;
+        return Objects.equals(id, category.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 }
