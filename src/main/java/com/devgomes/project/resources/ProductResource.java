@@ -1,7 +1,8 @@
+
 package com.devgomes.project.resources;
 
-import com.devgomes.project.entities.Category;
-import com.devgomes.project.services.CategoryService;
+import com.devgomes.project.entities.Product;
+import com.devgomes.project.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,20 +14,20 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/categories")
-public class CategoryResource {
+@RequestMapping(value = "/products")
+public class ProductResource {
 
-    private final CategoryService service;
+    private final ProductService service;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll(){
-        List<Category>  list = service.findAll();
+    public ResponseEntity<List<Product>> findAll(){
+        List<Product>  list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Category> findById(@PathVariable Long id){
-        Category obj = service.findById(id);
+    public ResponseEntity<Product> findById(@PathVariable Long id){
+        Product obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 

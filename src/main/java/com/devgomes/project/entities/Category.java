@@ -6,9 +6,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -25,6 +23,10 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Setter(AccessLevel.NONE)
+    @Builder.Default
+    private Set<Product> products = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

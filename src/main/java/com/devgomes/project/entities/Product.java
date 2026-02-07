@@ -1,17 +1,13 @@
 package com.devgomes.project.entities;
 
-import com.devgomes.project.entities.enums.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,35 +15,33 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "tb_order")
-public class Order implements Serializable {
+@Table(name = "tb_product")
+public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private Instant moment;
-
-    private Integer orderStatus;
+    private String name;
+    private String description;
+    private Double price;
+    private String imgUrl;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
-    private User client;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "order")
+
     @Setter(AccessLevel.NONE)
     @Builder.Default
-    private List<Product> products= new ArrayList();
+    private Set <Category> categories = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
+        Product order = (Product) o;
         return Objects.equals(id, order.id);
     }
 
@@ -55,5 +49,4 @@ public class Order implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 }
