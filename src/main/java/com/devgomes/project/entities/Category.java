@@ -26,6 +26,8 @@ public class Category implements Serializable {
 
     @Setter(AccessLevel.NONE)
     @Builder.Default
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
     @Override

@@ -28,14 +28,13 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-
     @Setter(AccessLevel.NONE)
     @Builder.Default
-    private Set <Category> categories = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
