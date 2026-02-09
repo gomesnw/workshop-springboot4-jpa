@@ -9,9 +9,7 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -37,11 +35,9 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id")
     private User client;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "order")
-    @Setter(AccessLevel.NONE)
-    @Builder.Default
-    private List<Product> products= new ArrayList();
+    @Getter
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
