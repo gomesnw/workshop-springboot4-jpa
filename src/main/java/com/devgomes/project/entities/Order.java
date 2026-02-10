@@ -2,7 +2,6 @@ package com.devgomes.project.entities;
 
 import com.devgomes.project.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,7 +28,7 @@ public class Order implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
 
-
+    @Getter(AccessLevel.NONE)
     private Integer orderStatus;
 
     @ManyToOne
@@ -39,6 +38,9 @@ public class Order implements Serializable {
     @Getter
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
+
+    @OneToOne (mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
 
     public void setOrderStatus(OrderStatus status) {
         if (status != null) {

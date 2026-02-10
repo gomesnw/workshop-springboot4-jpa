@@ -67,7 +67,7 @@ public class TestConfig implements CommandLineRunner {
                 imgUrl("")
                 .build();
 
-        Product p5  = Product.builder()
+        Product p5 = Product.builder()
                 .name("Rails for Dummies")
                 .description("Cras fringilla convallis sem vel faucibus.")
                 .price(100.99).
@@ -78,7 +78,6 @@ public class TestConfig implements CommandLineRunner {
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
 
-
         p1.getCategories().add(cat2);
         p2.getCategories().add(cat1);
         p2.getCategories().add(cat3);
@@ -87,7 +86,6 @@ public class TestConfig implements CommandLineRunner {
         p5.getCategories().add(cat2);
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
-
 
 
         // USERS MOCKS
@@ -119,9 +117,9 @@ public class TestConfig implements CommandLineRunner {
                 .build();
 
         Order o3 = Order.builder()
-                .moment(Instant.parse("2026-02-06T12:42:10Z"))
+                .moment(Instant.parse("2026-02-06T19:42:10Z"))
                 .orderStatus(OrderStatus.PAID.getCode())
-                .client(u1)
+                .client(u2)
                 .build();
 
         userRepository.saveAll(Arrays.asList(u1, u2));
@@ -133,5 +131,15 @@ public class TestConfig implements CommandLineRunner {
         OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+
+        Payment pay1 = Payment.builder()
+                    .moment(Instant.parse("2026-02-06T21:42:10Z"))
+                    .order(o3)
+                    .build();
+
+        o3.setPayment(pay1);
+
+        
+        orderRepository.save(o3);
     }
 }
