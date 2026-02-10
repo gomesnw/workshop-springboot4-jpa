@@ -9,6 +9,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_order_item")
 @NoArgsConstructor
@@ -17,13 +19,10 @@ public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
+    @Setter(AccessLevel.NONE)
     private OrderItemPK id = new OrderItemPK();
 
-    @Setter
-    @Getter
     private Integer quantity;
-    @Setter
-    @Getter
     private Double price;
 
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
@@ -32,24 +31,6 @@ public class OrderItem implements Serializable {
         this.quantity = quantity;
         this.price = price;
     }
-
-    @JsonIgnore
-    public Order getOrder(){
-        return id.getOrder();
-    }
-
-    public void setOrder(Order order){
-        id.setOrder(order);
-    }
-
-    public Product getProduct(){
-        return id.getProduct();
-    }
-
-    public void setProduct(Product product){
-        id.setProduct(product);
-    }
-
 
     @Override
     public boolean equals(Object o) {

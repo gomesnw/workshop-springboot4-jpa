@@ -29,6 +29,7 @@ public class Order implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
 
+
     private Integer orderStatus;
 
     @ManyToOne
@@ -38,6 +39,16 @@ public class Order implements Serializable {
     @Getter
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
+
+    public void setOrderStatus(OrderStatus status) {
+        if (status != null) {
+            this.orderStatus = status.getCode();
+        }
+    }
+
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
 
     @Override
     public boolean equals(Object o) {
