@@ -1,7 +1,6 @@
 package com.devgomes.project.entities;
 
 import com.devgomes.project.entities.pk.OrderItemPK;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +29,10 @@ public class OrderItem implements Serializable {
         id.setProduct(product);
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public Double getSubTotal(){
+        return price * quantity;
     }
 
     @Override

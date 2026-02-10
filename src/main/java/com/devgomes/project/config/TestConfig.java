@@ -139,7 +139,7 @@ public class TestConfig implements CommandLineRunner {
 
         o3.setPayment(pay1);
 
-        
+
         orderRepository.save(o3);
     }
 }
