@@ -4,6 +4,7 @@ import com.devgomes.project.entities.User;
 import com.devgomes.project.repositories.UserRepository;
 import com.devgomes.project.services.exceptions.DatabaseException;
 import com.devgomes.project.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -45,9 +46,13 @@ public class UserService {
     }
 
     public User updateUser(Long id, User user){
-        User entity = repository.getReferenceById(id);
-        updateUserData(entity, user);
-        return repository.save(entity);
+        try {
+            User entity = repository.getReferenceById(id);
+            updateUserData(entity, user);
+            return repository.save(entity);
+        } catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateUserData(User entity, User user) {
