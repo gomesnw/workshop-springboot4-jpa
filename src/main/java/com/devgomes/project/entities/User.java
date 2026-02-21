@@ -13,8 +13,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable {
@@ -32,8 +30,16 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     @Setter(AccessLevel.NONE)
-    @Builder.Default
     private List<Order> orders = new ArrayList<>();
+
+    @Builder
+    public User(Long id, String name, String email, String phone, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
 
     @Override
     public boolean equals(Object o) {

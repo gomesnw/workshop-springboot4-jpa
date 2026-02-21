@@ -1,5 +1,8 @@
 package com.devgomes.project.services;
 
+import com.devgomes.project.dto.UserDTO;
+import com.devgomes.project.dto.UserInsertDTO;
+import com.devgomes.project.dto.UserUpdateDTO;
 import com.devgomes.project.entities.User;
 import com.devgomes.project.repositories.UserRepository;
 import com.devgomes.project.services.exceptions.DatabaseException;
@@ -20,17 +23,20 @@ public class UserService {
 
     private final UserRepository repository;
 
-    public List<User> findAll(){
-        return repository.findAll();
+    public List<UserDTO> findAll() {
+        List<User> list = repository.findAll();
+        return list.stream().map(UserDTO::new).toList();
+    }
+    public UserDTO findById(Long id) {
+        User entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+        return new UserDTO(entity);
     }
 
-    public User findById(Long id){
-        Optional<User> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
-    }
-
-    public User insertUser (User user){
-        return repository.save(user);
+    public UserDTO insertUser (UserInsertDTO dto) {
+        User entity = dto.toEntity();
+        entity = repository.save(entity);
+        return new UserDTO(entity);
     }
 
     public void deleteUser(Long id) {
@@ -45,19 +51,19 @@ public class UserService {
         }
     }
 
-    public User updateUser(Long id, User user){
+    public UserDTO updateUser(Long id, UserUpdateDTO dto) {
         try {
             User entity = repository.getReferenceById(id);
-            updateUserData(entity, user);
-            return repository.save(entity);
-        } catch (EntityNotFoundException e){
+            updateUserData(entity, dto);
+            entity = repository.save(entity);
+            return new UserDTO(entity);
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(id);
         }
     }
 
-    private void updateUserData(User entity, User user) {
-        entity.setName(user.getName());
-        entity.setEmail(user.getEmail());
-        entity.setPhone(user.getPhone());
+    private void updateUserData(User entity, UserUpdateDTO dto) {
+        entity.setName(dto.name());
+        entity.setPhone(dto.phone());
     }
 }

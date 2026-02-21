@@ -2,6 +2,7 @@ package com.devgomes.project.services;
 
 import com.devgomes.project.entities.Category;
 import com.devgomes.project.repositories.CategoryRepository;
+import com.devgomes.project.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class CategoryService {
 
     public Category findById(Long id){
         Optional<Category> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
 }

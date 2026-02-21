@@ -1,12 +1,13 @@
 package com.devgomes.project.services;
 
+import com.devgomes.project.dto.ProductDTO;
 import com.devgomes.project.entities.Product;
 import com.devgomes.project.repositories.ProductRepository;
+import com.devgomes.project.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -14,13 +15,15 @@ public class ProductService {
 
     private final ProductRepository repository;
 
-    public List<Product> findAll(){
-        return repository.findAll();
+    public List<ProductDTO> findAll(){
+        List<Product> list = repository.findAll();
+        return list.stream().map(ProductDTO::new).toList();
     }
 
-    public Product findById(Long id){
-        Optional<Product> obj = repository.findById(id);
-        return obj.get();
+    public ProductDTO findById(Long id){
+        Product entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+        return new ProductDTO(entity);
     }
 
 }

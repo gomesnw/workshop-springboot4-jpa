@@ -1,7 +1,7 @@
 
 package com.devgomes.project.resources;
 
-import com.devgomes.project.entities.Product;
+import com.devgomes.project.dto.ProductDTO;
 import com.devgomes.project.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +20,15 @@ public class ProductResource {
     private final ProductService service;
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll(){
-        List<Product>  list = service.findAll();
+    public ResponseEntity<List<ProductDTO>> findAll(){
+        List<ProductDTO>  list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id){
-        Product obj = service.findById(id);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+        ProductDTO dto = service.findById(id);
+        return ResponseEntity.ok().body(dto);
     }
 
 }
