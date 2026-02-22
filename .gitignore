@@ -4,6 +4,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Java & Maven ###
+*.class
+*.jar
+*.war
+*.ear
+
 ### STS ###
 .apt_generated
 .classpath
@@ -14,10 +20,12 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+out/
+gen/
 
 ### NetBeans ###
 /nbproject/private/
@@ -29,5 +37,13 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+.DS_Store
+Thumbs.db
 .vscode/
+
+*.log
+temp/
+tmp/
+
+.env
+bin/
