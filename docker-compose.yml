@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:17
+    container_name: postgres-container
+    environment:
+      POSTGRES_DB: spring_project
+      POSTGRES_USER: devgomes
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
