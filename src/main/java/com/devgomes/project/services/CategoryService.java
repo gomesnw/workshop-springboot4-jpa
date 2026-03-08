@@ -1,5 +1,6 @@
 package com.devgomes.project.services;
 
+import com.devgomes.project.dto.CategoryDTO;
 import com.devgomes.project.entities.Category;
 import com.devgomes.project.repositories.CategoryRepository;
 import com.devgomes.project.services.exceptions.ResourceNotFoundException;
@@ -7,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,13 +15,15 @@ public class CategoryService {
 
     private final CategoryRepository repository;
 
-    public List<Category> findAll(){
-        return repository.findAll();
+    public List<CategoryDTO> findAll(){
+        List<Category> list = repository.findAll();
+        return list.stream().map(CategoryDTO::new).toList();
     }
 
-    public Category findById(Long id){
-        Optional<Category> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+    public CategoryDTO findById(Long id){
+       Category entity = repository.findById(id)
+               .orElseThrow(() -> new ResourceNotFoundException(id));
+        return new CategoryDTO(entity);
     }
 
 }
