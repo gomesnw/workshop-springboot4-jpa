@@ -3,7 +3,6 @@ package com.devgomes.project.resources;
 import com.devgomes.project.dto.UserDTO;
 import com.devgomes.project.dto.UserInsertDTO;
 import com.devgomes.project.dto.UserUpdateDTO;
-import com.devgomes.project.entities.User;
 import com.devgomes.project.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/users")
+@CrossOrigin(origins = "*")
 public class UserResource {
 
     private final UserService service;
