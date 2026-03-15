@@ -2,11 +2,12 @@ package com.devgomes.project.config;
 
 import com.devgomes.project.entities.*;
 import com.devgomes.project.entities.enums.OrderStatus;
-import com.devgomes.project.repositories.*;
+import com.devgomes.project.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 @Configuration
 @RequiredArgsConstructor
 
-@Profile("test")
+@Slf4j
 public class TestConfig implements CommandLineRunner {
 
     private final UserRepository userRepository;
@@ -23,60 +24,28 @@ public class TestConfig implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
 
+    @Transactional
     @Override
     public void run(String... args) throws Exception {
 
-        // CATEGORIES MOCKS
-        Category cat1 = Category.builder()
-                .name("Electronics")
-                .build();
-        Category cat2 = Category.builder()
-                .name("Books")
-                .build();
+        if (categoryRepository.count() > 0) {
+            log.info("Ignored seed: Neon already has registered data.");
+            return;
+        }
 
-        Category cat3 = Category.builder()
-                .name("Computers")
-                .build();
+        log.info(">>> Starting data seeding in Neon...");
 
-        // PRODUCTS MOCKS
-        Product p1 = Product.builder()
-                .name("The Lord of the Rings")
-                .description("Lorem ipsum dolor sit amet")
-                .price(130.00).
-                imgUrl("")
-                .build();
-
-        Product p2 = Product.builder()
-                .name("Smart TV")
-                .description("Nulla eu imperdiet purus. Maecenas ante.")
-                .price(2190.0).
-                imgUrl("")
-                .build();
-
-        Product p3 = Product.builder()
-                .name("Macbook Pro")
-                .description("Nam eleifend maximus tortor, at mollis.")
-                .price(1250.0).
-                imgUrl("")
-                .build();
-
-        Product p4 = Product.builder()
-                .name("PC Gamer")
-                .description("Donec aliquet odio ac rhoncus cursus.")
-                .price(1200.0).
-                imgUrl("")
-                .build();
-
-        Product p5 = Product.builder()
-                .name("Rails for Dummies")
-                .description("Cras fringilla convallis sem vel faucibus.")
-                .price(100.99).
-                imgUrl("")
-                .build();
-
+        Category cat1 = Category.builder().name("Electronics").build();
+        Category cat2 = Category.builder().name("Books").build();
+        Category cat3 = Category.builder().name("Computers").build();
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
-        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
+
+        Product p1 = Product.builder().name("The Lord of the Rings").description("Lorem ipsum dolor sit amet, consectetur.").price(130.0).imgUrl("").build();
+        Product p2 = Product.builder().name("Smart TV").description("Nulla eu imperdiet purus. Maecenas ante.").price(2190.0).imgUrl("").build();
+        Product p3 = Product.builder().name("Macbook Pro").description("Nam eleifend maximus tortor, at mollis.").price(1250.0).imgUrl("").build();
+        Product p4 = Product.builder().name("PC Gamer").description("Donec aliquet odio ac rhoncus cursus.").price(1200.0).imgUrl("").build();
+        Product p5 = Product.builder().name("Rails for Dummies").description("Donec aliquet odio ac rhoncus cursus.").price(100.99).imgUrl("").build();
 
         p1.getCategories().add(cat2);
         p2.getCategories().add(cat1);
@@ -87,42 +56,18 @@ public class TestConfig implements CommandLineRunner {
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
+        User u1 = User.builder().name("Isaque Gomes").email("isaqueg@gmail.com").phone("912999222").password("123456").build();
+        User u2 = User.builder().name("Geovani da Silva").email("geovanisilva@gmail.com").phone("9198383838").password("123456").build();
+        User u3 = User.builder().name("gomesnw").email("gomesnw@gmail.com").phone("91983838").password("12342226").build();
+        userRepository.saveAll(Arrays.asList(u1, u2, u3));
 
-        // USERS MOCKS
-        User u1 = User.builder()
-                .name("Isaque Gomes")
-                .email("isaqueg@gmail.com")
-                .phone("912999222")
-                .password("123456")
-                .build();
+        Order o1 = Order.builder().moment(Instant.parse("2026-02-05T23:53:07Z")).orderStatus(OrderStatus.DELIVERED.getCode()).client(u1).build();
+        Order o2 = Order.builder().moment(Instant.parse("2026-02-06T12:42:10Z")).orderStatus(OrderStatus.WAITING_PAYMENT.getCode()).client(u2).build();
+        Order o3 = Order.builder().moment(Instant.parse("2026-02-06T19:42:10Z")).orderStatus(OrderStatus.PAID.getCode()).client(u2).build();
 
-        User u2 = User.builder()
-                .name("Geovani da Silva")
-                .email("geovanisilva@gmail.com")
-                .phone("9198383838")
-                .password("123456")
-                .build();
+        Payment pay1 = Payment.builder().moment(Instant.parse("2026-02-06T21:42:10Z")).order(o3).build();
+        o3.setPayment(pay1);
 
-        // ORDERS MOCK
-        Order o1 = Order.builder()
-                .moment(Instant.parse("2026-02-05T23:53:07Z"))
-                .orderStatus(OrderStatus.DELIVERED.getCode())
-                .client(u1)
-                .build();
-
-        Order o2 = Order.builder()
-                .moment(Instant.parse("2026-02-06T12:42:10Z"))
-                .orderStatus(OrderStatus.WAITING_PAYMENT.getCode())
-                .client(u2)
-                .build();
-
-        Order o3 = Order.builder()
-                .moment(Instant.parse("2026-02-06T19:42:10Z"))
-                .orderStatus(OrderStatus.PAID.getCode())
-                .client(u2)
-                .build();
-
-        userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 
         OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
@@ -132,14 +77,6 @@ public class TestConfig implements CommandLineRunner {
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
-        Payment pay1 = Payment.builder()
-                    .moment(Instant.parse("2026-02-06T21:42:10Z"))
-                    .order(o3)
-                    .build();
-
-        o3.setPayment(pay1);
-
-
-        orderRepository.save(o3);
+        log.info(">>> Mocks seeded successfully in Neon!");
     }
 }

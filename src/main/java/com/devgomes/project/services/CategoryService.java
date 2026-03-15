@@ -2,7 +2,7 @@ package com.devgomes.project.services;
 
 import com.devgomes.project.dto.CategoryDTO;
 import com.devgomes.project.entities.Category;
-import com.devgomes.project.repositories.CategoryRepository;
+import com.devgomes.project.repository.CategoryRepository;
 import com.devgomes.project.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

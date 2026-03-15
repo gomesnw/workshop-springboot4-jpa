@@ -1,4 +1,4 @@
-package com.devgomes.project.resources;
+package com.devgomes.project.controller;
 
 import com.devgomes.project.dto.OrderDTO;
 import com.devgomes.project.services.OrderService;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/orders")
 @CrossOrigin(origins = "*")
-public class OrderResource {
+public class OrderController {
 
     private final OrderService service;
 

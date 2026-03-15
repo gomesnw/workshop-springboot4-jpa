@@ -2,7 +2,7 @@ package com.devgomes.project.services;
 
 import com.devgomes.project.dto.OrderDTO;
 import com.devgomes.project.entities.Order;
-import com.devgomes.project.repositories.OrderRepository;
+import com.devgomes.project.repository.OrderRepository;
 import com.devgomes.project.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

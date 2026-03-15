@@ -1,4 +1,4 @@
-package com.devgomes.project.resources;
+package com.devgomes.project.controller;
 
 import com.devgomes.project.dto.CategoryDTO;
 import com.devgomes.project.services.CategoryService;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/categories")
 @CrossOrigin(origins = "*")
-public class CategoryResource {
+public class CategoryController {
 
     private final CategoryService service;
 

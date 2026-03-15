@@ -1,5 +1,5 @@
 
-package com.devgomes.project.resources;
+package com.devgomes.project.controller;
 
 import com.devgomes.project.dto.ProductDTO;
 import com.devgomes.project.services.ProductService;
@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/products")
-public class ProductResource {
+public class ProductController {
 
     private final ProductService service;
 
