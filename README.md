@@ -45,8 +45,6 @@ Para acessar a documentação (com o projeto rodando localmente):
 
 ---
 
-## 👨‍💻 Sobre o Autor
-
 Desenvolvido por **Isaque Gomes** - Estudante de Engenharia de Software na UEPA.
 * [LinkedIn](https://www.linkedin.com/in/gomesnw)
 * [GitHub](https://github.com/gomesnw)
