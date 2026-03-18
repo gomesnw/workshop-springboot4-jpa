@@ -7,7 +7,7 @@ Este é um projeto de estudo desenvolvido para consolidar conhecimentos em **Jav
 * **Linguagem:** Java 17
 * **Framework:** Spring Boot 3
 * **Acesso a Dados:** Spring Data JPA / Hibernate
-* **Banco de Dados:** H2 (Desenvolvimento) / MySQL (Produção)
+* **Banco de Dados:** H2 (Desenvolvimento) / PostgreSQL (Produção)
 * **Documentação:** Swagger (OpenAPI 3)
 * **Gerenciador de Dependências:** Maven
 
