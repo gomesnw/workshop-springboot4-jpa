@@ -1,22 +1,21 @@
-package com.devgomes.project.resources;
+package com.devgomes.project.controller;
 
 import com.devgomes.project.dto.UserDTO;
 import com.devgomes.project.dto.UserInsertDTO;
 import com.devgomes.project.dto.UserUpdateDTO;
 import com.devgomes.project.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/users")
-@CrossOrigin(origins = "*")
-public class UserResource {
+public class UserController {
 
     private final UserService service;
 
@@ -33,13 +32,9 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insertUser(@RequestBody UserInsertDTO dto){
-        UserDTO result = service.insertUser(dto);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(result.id()).toUri();
-
-        return ResponseEntity.created(uri).body(result);
+    public ResponseEntity<UserDTO> insertUser(@RequestBody @Valid UserInsertDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.insertUser(dto));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -49,7 +44,7 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO dto) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO dto) {
         UserDTO result = service.updateUser(id, dto);
         return ResponseEntity.ok().body(result);
     }

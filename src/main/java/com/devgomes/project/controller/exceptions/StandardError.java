@@ -1,4 +1,4 @@
-package com.devgomes.project.resources.exceptions;
+package com.devgomes.project.controller.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

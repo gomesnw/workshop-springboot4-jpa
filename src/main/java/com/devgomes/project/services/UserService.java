@@ -8,10 +8,9 @@ import com.devgomes.project.repository.OrderRepository;
 import com.devgomes.project.repository.UserRepository;
 import com.devgomes.project.services.exceptions.DatabaseException;
 import com.devgomes.project.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,27 +40,24 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        if (!repository.existsById(id)) {
-            throw new ResourceNotFoundException(id);
-        } else if (orderRepository.existsByClientId(id)) {
+        User entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+        if (orderRepository.existsByClientId(id)) {
             throw new DatabaseException("Can't delete an user that has pending orders.");
         }
-        repository.deleteById(id);
+        repository.delete(entity);
     }
 
     public UserDTO updateUser(Long id, UserUpdateDTO dto) {
-        try {
-            User entity = repository.getReferenceById(id);
-            updateUserData(entity, dto);
-            entity = repository.save(entity);
-            return new UserDTO(entity);
-        } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(id);
-        }
+        User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        updateUserData(entity, dto);
+        entity = repository.save(entity);
+        return new UserDTO(entity);
     }
 
     private void updateUserData(User entity, UserUpdateDTO dto) {
         entity.setName(dto.name());
+        entity.setEmail(dto.email());
         entity.setPhone(dto.phone());
     }
 }

@@ -1,12 +1,15 @@
 package com.devgomes.project.dto;
 
 import com.devgomes.project.entities.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public record UserInsertDTO(
-        String name,
-        String email,
+        @NotBlank String name,
+        @NotBlank @Email String email,
         String phone,
-        String password
+        @NotBlank @Size(min = 6, max = 18) String password
 ) {
     public User toEntity() {
         return new User(null, name, email, phone, password);

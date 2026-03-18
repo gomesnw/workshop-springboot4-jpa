@@ -1,4 +1,4 @@
-package com.devgomes.project.resources.exceptions;
+package com.devgomes.project.controller.exceptions;
 
 import com.devgomes.project.services.exceptions.DatabaseException;
 import com.devgomes.project.services.exceptions.ResourceNotFoundException;
@@ -27,8 +27,8 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<StandardError> database(DatabaseException exception, HttpServletRequest request) {
-        String error = "Database error";
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String error = "Database conflict";
+        HttpStatus status = HttpStatus.CONFLICT;
         StandardError standardError = new StandardError(
                 Instant.now(),
                 status.value(),
