@@ -56,10 +56,10 @@ public class TestConfig implements CommandLineRunner {
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
-        User u1 = User.builder().name("Isaque Gomes").email("isaqueg@gmail.com").phone("912999222").build();
-        User u2 = User.builder().name("Geovani da Silva").email("geovanisilva@gmail.com").phone("9198383838").build();
-        User u3 = User.builder().name("gomesnw").email("gomesnw@gmail.com").phone("91983838").build();
-        userRepository.saveAll(Arrays.asList(u1, u2, u3));
+
+        User u1 = User.builder().name("Geovani da Silva").email("geovanisilva@gmail.com").phone("9198383838").build();
+        User u2 = User.builder().name("gomesnw").email("gomesnw@gmail.com").phone("91983838").build();
+        userRepository.saveAll(Arrays.asList(u1, u2));
 
         Order o1 = Order.builder().moment(Instant.parse("2026-02-05T23:53:07Z")).orderStatus(OrderStatus.DELIVERED.getCode()).client(u1).build();
         Order o2 = Order.builder().moment(Instant.parse("2026-02-06T12:42:10Z")).orderStatus(OrderStatus.WAITING_PAYMENT.getCode()).client(u2).build();
