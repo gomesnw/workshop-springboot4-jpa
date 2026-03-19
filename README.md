@@ -58,7 +58,7 @@ SPRING_DATASOURCE_PASSWORD=PASSWORD
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/](https://github.com/)gomesnw/workshop-springboot4-jpa.git
+    git clone https://github.com/gomesnw/workshop-springboot4-jpa.git
     ```
 2.  **Entre na pasta do projeto:**
     ```bash
